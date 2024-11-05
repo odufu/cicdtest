@@ -10,12 +10,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'  # Specify your Flutter version
+          flutter-version: '3.24.0'
 
       - name: Install dependencies
         run: flutter pub get
@@ -25,10 +25,14 @@ jobs:
 
       - name: Set up Google Cloud SDK
         run: |
+          sudo apt-get update
+          sudo apt-get install -y apt-transport-https ca-certificates gnupg
           echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-          sudo apt-get install apt-transport-https ca-certificates gnupg
-          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-          sudo apt-get update && sudo apt-get install google-cloud-sdk
+          curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+          sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
 
       - name: Authenticate with Firebase using Service Account
         env:
