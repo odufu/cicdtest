@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "345769754556",
+    "project_id": "buga-21825",
+    "storage_bucket": "buga-21825.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345769754556:android:43dde1108df493f95435b9",
+        "android_client_info": {
+          "package_name": "com.kingsworth.buga"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6lQTNZuj8Prd-BQJhBfEqOFwSuOvpnsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345769754556:android:695a738296e561e85435b9",
+        "android_client_info": {
+          "package_name": "com.kingsworth.buga1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6lQTNZuj8Prd-BQJhBfEqOFwSuOvpnsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345769754556:android:b138bbd53bfaca235435b9",
+        "android_client_info": {
+          "package_name": "com.kingsworth.cicdtest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6lQTNZuj8Prd-BQJhBfEqOFwSuOvpnsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
