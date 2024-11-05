@@ -42,12 +42,6 @@ jobs:
           gcloud auth activate-service-account --key-file=firebase_service_account.json
           gcloud --quiet config set project buga-21825
 
-      - name: Set Firebase Project for Firebase CLI
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: firebase_service_account.json
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase use --project buga-21825
-
       - name: Upload to Firebase App Distribution
         env:
           GOOGLE_APPLICATION_CREDENTIALS: firebase_service_account.json
@@ -56,7 +50,8 @@ jobs:
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app 1:345769754556:android:b138bbd53bfaca235435b9 \
             --release-notes "Automated release from GitHub Actions" \
-            --groups "testers"
+            --groups "testers" \
+            --project buga-21825
 
       - name: Clean up
         run: rm firebase_service_account.json
