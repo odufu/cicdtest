@@ -42,8 +42,12 @@ jobs:
           gcloud auth activate-service-account --key-file=firebase_service_account.json
           gcloud --quiet config set project buga-21825
 
-      - name: Set Firebase Project
-        run: firebase use --project buga-21825
+      - name: Set Firebase Project for Firebase CLI
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase_service_account.json
+        run: |
+          firebase login:ci --no-localhost --token $(gcloud auth print-access-token)
+          firebase use --project buga-21825
 
       - name: Upload to Firebase App Distribution
         env:
