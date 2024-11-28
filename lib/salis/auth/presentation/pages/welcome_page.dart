@@ -149,21 +149,30 @@ class WelcomePage extends StatelessWidget {
                               width: 2,
                             ),
                             borderRadius: BorderRadius.circular(50)),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Get Started",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Icon(Icons.arrow_right_sharp)
-                          ],
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUpPage()));
+                          },
+                          icon: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Get Started",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Icon(Icons.arrow_right_sharp)
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
                         height: 30,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AppButton(
                               text: "Login",

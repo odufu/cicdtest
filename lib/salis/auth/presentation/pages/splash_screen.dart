@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
               SizedBox(
                   width: 100,
                   child: Image.asset("assets/images/roundedLogo.png")),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Text(
@@ -35,17 +35,19 @@ class SplashScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.surface),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text("Wait a second..."),
-              SizedBox(
+              const Text("Wait a second..."),
+              const SizedBox(
                 height: 60,
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const WelcomePage()));
                 },
                 child: CircularProgressIndicator(
                   color: Theme.of(context).colorScheme.surface,

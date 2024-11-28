@@ -8,7 +8,7 @@ ThemeData salisMode = ThemeData(
         primary: Color.fromARGB(255, 42, 4, 1),
         onPrimary: Colors.black,
         secondary: AppColor.secondaryColor,
-        tertiary: Colors.white,
+        tertiary: Colors.orange,
         onSecondary: Colors.white,
         error: Colors.red,
         onError: Colors.white,
