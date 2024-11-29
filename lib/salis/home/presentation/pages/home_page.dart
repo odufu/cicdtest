@@ -4,6 +4,7 @@ import 'package:cicdtest/salis/profile/presentation/profile.dart';
 import 'package:cicdtest/salis/props/presentation/property.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   int? initialIndex;
 
@@ -24,7 +25,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     selectedIndex = widget.initialIndex ?? 0;
     super.initState();
   }
@@ -40,11 +40,11 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundImage:
                   AssetImage('assets/images/joel.jpg'), // Profile image
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           )
         ],

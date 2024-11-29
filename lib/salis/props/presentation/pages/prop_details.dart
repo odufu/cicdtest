@@ -1,71 +1,140 @@
-import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
+import 'package:cicdtest/salis/core/utils/helper_functions.dart';
+import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'package:cicdtest/salis/props/presentation/widgets/ownership_slot_page.dart';
 
-class PropDetails extends StatelessWidget {
+import '../widgets/fraction_paid_progress_bar.dart';
+
+class PropDetails extends StatefulWidget {
   PropDetails({super.key});
 
+  @override
+  State<PropDetails> createState() => _PropDetailsState();
+}
+
+class _PropDetailsState extends State<PropDetails> {
   final images = [
     'assets/images/props6.jpg',
-    'assets/images/props5.jpg',
+    'assets/images/props6.jpg',
     'assets/images/props7.jpg',
     'assets/images/props9.jpg',
   ];
+
+  late PageController _pageController;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+
+    // Auto-slide every 5 seconds
+    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      int nextPage = (_pageController.page!.toInt() + 1) % images.length;
+      _pageController.animateToPage(
+        nextPage,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
-        title: const Text("Property Details"),
+        title: Text("Property Details",
+            style: TextStyle(color: Theme.of(context).colorScheme.surface)),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //MAIN IMAGE SLIDERS
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.symmetric(
-                      horizontal: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 3))),
-              height: 200,
-              child: PageView.builder(
-                itemCount: images.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image:
-                            AssetImage(images[index]), // NetworkImage for URLs
-                      ),
-                    ),
-                  );
-                },
-              ),
+            // Image Slider with Arrow Controls
+            Stack(
+              children: [
+                Container(
+                  height: 200,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(images[index]),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  left: 10,
+                  top: 80,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  top: 80,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            //VIDEO IF ANY
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.symmetric(
-                      horizontal: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 5))),
-              height: 100,
-              child: PageView.builder(
-                itemCount: images.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image:
-                            AssetImage(images[index]), // NetworkImage for URLs
-                      ),
+
+            // Video Player Section
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Chewie(
+                  controller: ChewieController(
+                    videoPlayerController: VideoPlayerController.asset(
+                      'assets/images/propsvideo.mp4', // Replace with your video asset or network URL
                     ),
-                  );
-                },
+                    autoPlay: false,
+                    looping: false,
+                    allowFullScreen: true,
+                    materialProgressColors: ChewieProgressColors(
+                      playedColor: Theme.of(context).colorScheme.primary,
+                      handleColor: Colors.red,
+                      backgroundColor: Colors.grey,
+                    ),
+                    placeholder: const Center(
+                      child: Icon(Icons.play_circle_fill,
+                          size: 60, color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
             ),
 
@@ -110,7 +179,7 @@ class PropDetails extends StatelessWidget {
                   ),
 
                   // DESCRIOTION
-                  Divider(),
+                  const Divider(),
                   Text(
                     "Immerse yourself in luxury with this modern apartment featuring spacious rooms, top-notch amenities, and breathtaking views. Ideal for those seeking a blend of comfort and sophistication",
                     style: TextStyle(
@@ -121,7 +190,7 @@ class PropDetails extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Divider(),
+                  const Divider(),
                   // CONTENTS
                   Text(
                     "Features",
@@ -204,7 +273,7 @@ class PropDetails extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         children: [
@@ -244,7 +313,7 @@ class PropDetails extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -259,7 +328,7 @@ class PropDetails extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         children: [
@@ -288,7 +357,7 @@ class PropDetails extends StatelessWidget {
                     ],
                   ),
                   //PRICE AND PAYMENTS
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -302,7 +371,7 @@ class PropDetails extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         children: [
@@ -330,94 +399,176 @@ class PropDetails extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
                   //AVAILABILITY
-                  Text(
-                    "AVAILABILITY",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Column(
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
+                      Card(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * .9,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "AVAILABILITY",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          Icons.circle,
+                                          size: 15,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text("Status: In Progress")
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          Icons.circle,
+                                          size: 15,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text("Next Payment Due: N 500,000")
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("Status: In Progress")
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("Next Payment Due: N 500,000")
-                        ],
-                      ),
+                        ),
+                      )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   // CO OWNERSHIP PROGRESS BAR
-                  Text(
-                    "CO-OWNERSHIP PROGRESS",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .9,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "CO-OWNERSHIP PROGRESS",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+
+                                const SizedBox(
+                                  height: 5,
+                                ),
+
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          Icons.circle,
+                                          size: 15,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text("90% Complete"),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                          Icons.circle,
+                                          size: 15,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text("13-Dec. 2024")
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .5,
+                                  child: FractionPaidProgressBar(
+                                    fractions: [
+                                      FractionPaidData(
+                                        isPaid: true,
+                                        imageUrl: 'assets/profile.png',
+                                        amountPaid: 200000,
+                                        equityOwned: 20.0,
+                                        datePaid: '13 March, 2023',
+                                      ),
+                                      FractionPaidData(
+                                        isPaid: true,
+                                        imageUrl: 'assets/profile.png',
+                                        amountPaid: 400000,
+                                        equityOwned: 40.0,
+                                        datePaid: '15 March, 2023',
+                                      ),
+                                      FractionPaidData(
+                                        isPaid: false,
+                                        amountToPay: 500000,
+                                        equityToOwn: 50.0,
+                                      ),
+                                      FractionPaidData(
+                                        isPaid: false,
+                                        amountToPay: 300000,
+                                        equityToOwn: 30.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // MAJORE SELLING LINES
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("90% Complete")
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("13-Dec. 2024")
-                        ],
-                      ),
+                        ),
+                      )
                     ],
-                  ),
-                  // MAJORE SELLING LINES
-                  SizedBox(
-                    height: 20,
                   ),
 
                   //AVAILABILITY
@@ -431,7 +582,7 @@ class PropDetails extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Row(
                         children: [
@@ -504,22 +655,28 @@ class PropDetails extends StatelessWidget {
                     height: 5,
                   ),
                   Image.asset("assets/images/plan.jpg"),
-                  //RELATED PROPS SLIDES
-                  //BUTTONS
-
-                  Row(
-                    children: [
-                      AppButton(text: "Get 10%", onPress: () {}),
-                      AppButton(
-                        text: "Puechase",
-                        onPress: () {},
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                      ),
-                    ],
-                  ),
                 ],
               ),
             )
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            AppButton(
+                text: "Get 10%",
+                onPress: () {
+                  HelperFunctions.routePushTo(
+                      const OwnershipSlotsPage(), context);
+                }),
+            AppButton(
+              text: "Puechase",
+              onPress: () {},
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+            ),
           ],
         ),
       ),

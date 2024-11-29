@@ -1,19 +1,57 @@
+import 'dart:async';
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/props/presentation/pages/prop_details.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/app_button.dart';
+import 'fraction_paid_progress_bar.dart';
 
-class ProductCard extends StatelessWidget {
-  final List<String> images; // Updated to accept multiple images
+class ProductCard extends StatefulWidget {
+  final List<String> images;
   final String name;
   final String price;
+
   const ProductCard({
     required this.images,
     required this.name,
     required this.price,
     super.key,
   });
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  final PageController _pageController = PageController();
+  Timer? _autoSlideTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoSlide();
+  }
+
+  @override
+  void dispose() {
+    _autoSlideTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _startAutoSlide() {
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      if (_pageController.hasClients) {
+        final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
+        _pageController.animateToPage(
+          nextPage % widget.images.length, // Wrap around to the first image
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,59 +64,93 @@ class ProductCard extends StatelessWidget {
           children: [
             SizedBox(
               height: 150,
-              child: PageView.builder(
-                itemCount: images.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image:
-                            AssetImage(images[index]), // NetworkImage for URLs
-                      ),
+              child: Stack(
+                children: [
+                  PageView.builder(
+                    controller: _pageController,
+                    itemCount: widget.images.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(widget.images[index]),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_left, size: 30),
+                      onPressed: () {
+                        if (_pageController.hasClients) {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
                     ),
-                  );
-                },
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_right, size: 30),
+                      onPressed: () {
+                        if (_pageController.hasClients) {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+            const SizedBox(height: 10),
             Text(
-              name,
+              widget.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             const Text(
-                "Chic one-bedroom apartment featuring contemporary design, ample natural light, and prime city accessibility"),
-            const SizedBox(
-              height: 10,
+              "Chic one-bedroom apartment featuring contemporary design, ample natural light, and prime city accessibility",
             ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
                   height: 40,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.onSurface),
-                      borderRadius: BorderRadius.circular(50)),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.onSurface),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    price,
+                    widget.price,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 Container(
                   height: 40,
                   width: 40,
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 3, color: Theme.of(context).colorScheme.error),
-                      borderRadius: BorderRadius.circular(50)),
+                    border: Border.all(
+                        width: 3, color: Theme.of(context).colorScheme.error),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                   child: const Center(
                     child: Text(
                       "50%",
@@ -87,33 +159,43 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Stack(
                     children: [
                       Positioned(
-                          bottom: 23,
-                          left: 10,
-                          child: Container(
-                            height: 1,
-                            color: Theme.of(context).colorScheme.primary,
-                          )),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          FractionPaid(
+                        bottom: 23,
+                        left: 10,
+                        child: Container(
+                          height: 1,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      FractionPaidProgressBar(
+                        fractions: [
+                          FractionPaidData(
                             isPaid: true,
+                            imageUrl: 'assets/profile.png',
+                            amountPaid: 200000,
+                            equityOwned: 20.0,
+                            datePaid: '13 March, 2023',
                           ),
-                          FractionPaid(
+                          FractionPaidData(
+                            isPaid: false,
+                            amountToPay: 300000,
+                            equityToOwn: 30.0,
+                          ),
+                          FractionPaidData(
                             isPaid: true,
+                            imageUrl: 'assets/profile.png',
+                            amountPaid: 400000,
+                            equityOwned: 40.0,
+                            datePaid: '15 March, 2023',
                           ),
-                          FractionPaid(
+                          FractionPaidData(
                             isPaid: false,
-                          ),
-                          FractionPaid(
-                            isPaid: false,
+                            amountToPay: 500000,
+                            equityToOwn: 50.0,
                           ),
                         ],
                       ),
@@ -122,9 +204,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -137,53 +217,25 @@ class ProductCard extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 29, 97, 31),
                 ),
                 IconButton(
-                    onPressed: () {},
-                    icon: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Icon(
-                          Icons.favorite,
-                          color: Theme.of(context).colorScheme.surface,
-                          size: 15,
-                        )))
+                  onPressed: () {},
+                  icon: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Icon(
+                      Icons.favorite,
+                      color: Theme.of(context).colorScheme.surface,
+                      size: 15,
+                    ),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(
-              height: 10,
-            )
+            const SizedBox(height: 10),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class FractionPaid extends StatelessWidget {
-  final bool isPaid;
-  const FractionPaid({
-    required this.isPaid,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {},
-      icon: Container(
-        height: 20,
-        width: 20,
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-            color: isPaid
-                ? const Color.fromARGB(255, 51, 128, 54)
-                : Theme.of(context).colorScheme.surface,
-            border: isPaid
-                ? Border.all(width: 3, color: Colors.green)
-                : Border.all(
-                    width: 1, color: Theme.of(context).colorScheme.primary),
-            borderRadius: BorderRadius.circular(50)),
       ),
     );
   }

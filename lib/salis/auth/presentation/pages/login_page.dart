@@ -79,7 +79,6 @@ class LoginPage extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     HelperFunctions.routeReplacdTo(const SignUpPage(), context);
-                    ;
                   },
                   child: const Text(
                     "SIGN UP",

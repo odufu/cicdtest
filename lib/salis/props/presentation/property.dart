@@ -1,6 +1,4 @@
-import 'package:cicdtest/salis/core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
-
 import 'widgets/product_card.dart';
 
 class Property extends StatelessWidget {
@@ -39,7 +37,7 @@ class Property extends StatelessWidget {
                 ),
               ),
               // Removed const for dynamic images
-              ProductCard(
+              const ProductCard(
                 images: [
                   'assets/images/props9.jpg',
                   'assets/images/props10.jpg',
@@ -52,7 +50,7 @@ class Property extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ProductCard(
+              const ProductCard(
                 images: [
                   'assets/images/props11.jpg',
                   'assets/images/props12.jpg',
@@ -65,7 +63,7 @@ class Property extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ProductCard(
+              const ProductCard(
                 images: [
                   'assets/images/props3.jpg',
                   'assets/images/props2.jpg',
@@ -78,7 +76,7 @@ class Property extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ProductCard(
+              const ProductCard(
                 images: [
                   'assets/images/props4.jpg',
                   'assets/images/props1.jpg',
@@ -91,7 +89,7 @@ class Property extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ProductCard(
+              const ProductCard(
                 images: [
                   'assets/images/props6.jpg',
                   'assets/images/props6.jpg',
