@@ -151,7 +151,7 @@ class MyHomePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8.0),
                                 image: DecorationImage(
                                   image: AssetImage(
-                                      'assets/images/prop${index + 1}.jpg'), // Placeholder
+                                      'assets/images/props${index + 7}.jpg'), // Placeholder
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -187,7 +187,7 @@ class MyHomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
                                 image: AssetImage(
-                                    'assets/images/prop${index + 1}.jpg'), // Placeholder
+                                    'assets/images/props${index + 11}.jpg'), // Placeholder
                                 fit: BoxFit.cover,
                               ),
                             ),

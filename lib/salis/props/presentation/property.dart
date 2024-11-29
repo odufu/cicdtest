@@ -11,11 +11,11 @@ class Property extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0), // Added const for static values
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 30),
+                padding: const EdgeInsets.only(bottom: 30),
                 child: Row(
                   children: [
                     Image.asset(
@@ -34,30 +34,72 @@ class Property extends StatelessWidget {
                           hintText: "Search Here...",
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              const ProductCard(
-                image: 'assets/images/prop3.jpg',
-                name: "4 - Bedroom Bungallow",
-                price: "N 4, 000,000",
+              // Removed const for dynamic images
+              ProductCard(
+                images: [
+                  'assets/images/props9.jpg',
+                  'assets/images/props10.jpg',
+                  'assets/images/props11.jpg',
+                  'assets/images/props4.jpg'
+                ],
+                name: "3-Bed Duplex",
+                price: "₦ 500,000",
               ),
               const SizedBox(
                 height: 20,
               ),
-              const ProductCard(
-                image: 'assets/images/prop1.jpg',
-                name: "Semi detached duplex",
-                price: "N 3000000",
+              ProductCard(
+                images: [
+                  'assets/images/props11.jpg',
+                  'assets/images/props12.jpg',
+                  'assets/images/props3.jpg',
+                  'assets/images/props4.jpg'
+                ],
+                name: "4 - Bedroom Bungallow",
+                price: "₦ 400,000",
               ),
               const SizedBox(
                 height: 20,
               ),
-              const ProductCard(
-                image: 'assets/images/prop2.jpg',
+              ProductCard(
+                images: [
+                  'assets/images/props3.jpg',
+                  'assets/images/props2.jpg',
+                  'assets/images/props1.jpg',
+                  'assets/images/props4.jpg'
+                ],
                 name: "4 - Bedroom Bungallow",
-                price: "N 3000000",
+                price: "₦ 400,000",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ProductCard(
+                images: [
+                  'assets/images/props4.jpg',
+                  'assets/images/props1.jpg',
+                  'assets/images/props3.jpg',
+                  'assets/images/props2.jpg'
+                ],
+                name: "4 - Bedroom Bungallow",
+                price: "₦ 400,000",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ProductCard(
+                images: [
+                  'assets/images/props6.jpg',
+                  'assets/images/props6.jpg',
+                  'assets/images/props8.jpg',
+                  'assets/images/props9.jpg'
+                ],
+                name: "4 - Bedroom Bungallow",
+                price: "₦ 400,000",
               ),
               const SizedBox(
                 height: 20,
