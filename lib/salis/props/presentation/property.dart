@@ -40,7 +40,7 @@ class Property extends StatelessWidget {
               const ProductCard(
                 images: [
                   'assets/images/props9.jpg',
-                  'assets/images/props10.jpg',
+                  'assets/images/props21.jpg',
                   'assets/images/props11.jpg',
                   'assets/images/props4.jpg'
                 ],
