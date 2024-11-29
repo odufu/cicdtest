@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/helper_functions.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_input_field.dart';
 import 'login_page.dart';
@@ -81,8 +82,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    HelperFunctions.routeReplacdTo(const LoginPage(), context);
                   },
                   child: const Text(
                     "LOGIN",

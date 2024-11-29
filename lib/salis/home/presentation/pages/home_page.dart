@@ -5,6 +5,9 @@ import 'package:cicdtest/salis/props/presentation/property.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
+  int? initialIndex;
+
+  HomePage({this.initialIndex, super.key});
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -18,6 +21,14 @@ class _HomePageState extends State<HomePage> {
     const MyProps(),
     const Profile(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    selectedIndex = widget.initialIndex ?? 0;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

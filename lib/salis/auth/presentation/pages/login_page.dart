@@ -1,6 +1,7 @@
 import 'package:cicdtest/salis/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/helper_functions.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_input_field.dart';
 import 'sign_up_page.dart';
@@ -58,10 +59,7 @@ class LoginPage extends StatelessWidget {
                       textColor:
                           Theme.of(context).colorScheme.surface.withOpacity(1),
                       onPress: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                        HelperFunctions.routeReplacdTo(HomePage(), context);
                       })
                 ],
               ),
@@ -80,8 +78,8 @@ class LoginPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()));
+                    HelperFunctions.routeReplacdTo(const SignUpPage(), context);
+                    ;
                   },
                   child: const Text(
                     "SIGN UP",

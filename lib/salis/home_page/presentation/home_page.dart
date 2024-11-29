@@ -1,3 +1,7 @@
+import 'package:cicdtest/salis/core/utils/helper_functions.dart';
+import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'package:cicdtest/salis/home/presentation/pages/home_page.dart';
+import 'package:cicdtest/salis/props/presentation/property.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -8,23 +12,23 @@ class MyHomePage extends StatelessWidget {
       "icon": Icons.apartment,
     },
     {
-      "name": "Office",
-      "icon": Icons.house_siding_outlined,
+      "name": "Open Land",
+      "icon": Icons.landscape,
     },
     {
-      "name": "Resorts",
-      "icon": Icons.local_post_office,
+      "name": "New Sites",
+      "icon": Icons.new_releases_outlined,
     },
     {
-      "name": "Villa",
+      "name": "Distress Sales",
       "icon": Icons.villa,
     },
     {
-      "name": "Apertment",
+      "name": "Promo Sales",
       "icon": Icons.house,
     },
     {
-      "name": "Hostel",
+      "name": "Leas",
       "icon": Icons.home_repair_service_outlined,
     },
   ];
@@ -92,7 +96,13 @@ class MyHomePage extends StatelessWidget {
                           return Column(
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  HelperFunctions.routeReplacdTo(
+                                      HomePage(
+                                        initialIndex: 1,
+                                      ),
+                                      context);
+                                },
                                 icon: CircleAvatar(
                                   radius: 25,
                                   backgroundColor:
@@ -120,12 +130,8 @@ class MyHomePage extends StatelessWidget {
                       const Divider(),
 
                       // Popular Properties Section
-                      Text(
-                        'Popular Properties',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                      SessionHeader(
+                        title: "Porpular Properties",
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
@@ -157,12 +163,8 @@ class MyHomePage extends StatelessWidget {
                       const Divider(),
 
                       // Recently Added Section
-                      Text(
-                        'Recently Added',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                      SessionHeader(
+                        title: "Recently Added",
                       ),
                       const SizedBox(height: 10),
                       GridView.builder(
@@ -198,6 +200,43 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SessionHeader extends StatelessWidget {
+  String title;
+  SessionHeader({
+    required this.title,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontSize: 16,
+              fontWeight: FontWeight.bold),
+        ),
+        AppButton(
+          text: "View More",
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
+          textColor: Theme.of(context).colorScheme.primary,
+          onPress: () {
+            HelperFunctions.routeReplacdTo(
+                HomePage(
+                  initialIndex: 1,
+                ),
+                context);
+          },
+          width: 100,
+        )
+      ],
     );
   }
 }

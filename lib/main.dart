@@ -1,8 +1,7 @@
-import 'package:cicdtest/buga/core/theme/light_theme.dart';
 import 'package:cicdtest/salis/core/theme/salis_mode.dart';
 import 'package:flutter/material.dart';
 
-import 'buga/features/authentication/presentation/pages/splash_screen.dart';
+import 'salis/auth/presentation/pages/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: lighMode,
+      theme: salisMode,
       home: const SplashScreen(),
     );
   }

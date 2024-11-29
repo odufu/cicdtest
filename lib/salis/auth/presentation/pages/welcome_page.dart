@@ -1,3 +1,4 @@
+import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/app_button.dart';
@@ -177,20 +178,14 @@ class WelcomePage extends StatelessWidget {
                           AppButton(
                               text: "Login",
                               onPress: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
+                                HelperFunctions.routeReplacdTo(
+                                    const LoginPage(), context);
                               }),
                           AppButton(
                             text: "Signup",
                             onPress: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignUpPage()));
+                              HelperFunctions.routeReplacdTo(
+                                  const SignUpPage(), context);
                             },
                           ),
                         ],
