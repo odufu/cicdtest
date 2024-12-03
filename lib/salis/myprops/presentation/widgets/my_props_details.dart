@@ -6,16 +6,16 @@ import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
 import 'package:cicdtest/salis/props/presentation/widgets/ownership_slot_page.dart';
 
-import '../widgets/fraction_paid_progress_bar.dart';
+import '../../../props/presentation/widgets/fraction_paid_progress_bar.dart';
 
-class PropDetails extends StatefulWidget {
-  PropDetails({super.key});
+class MyPropsDetails extends StatefulWidget {
+  MyPropsDetails({super.key});
 
   @override
-  State<PropDetails> createState() => _PropDetailsState();
+  State<MyPropsDetails> createState() => _MyPropsDetailsState();
 }
 
-class _PropDetailsState extends State<PropDetails> {
+class _MyPropsDetailsState extends State<MyPropsDetails> {
   final images = [
     'assets/images/props6.jpg',
     'assets/images/props6.jpg',

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
-import 'package:cicdtest/salis/props/presentation/widgets/my_property_detail_page.dart';
+import 'package:cicdtest/salis/myprops/presentation/widgets/my_props_details.dart';
 import 'package:flutter/material.dart';
 
 class MyPropsCard extends StatefulWidget {
@@ -41,7 +41,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
   }
 
   void _startAutoSlide() {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       setState(() {
         _currentIndex = (_currentIndex + 1) % widget.imageUrls.length;
       });
@@ -88,7 +88,8 @@ class _MyPropsCardState extends State<MyPropsCard> {
             children: [
               // Image Display
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
                   widget.imageUrls[_currentIndex],
                   height: 180,
@@ -102,7 +103,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
                 left: 8,
                 top: 75,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: _onPrevious,
                 ),
               ),
@@ -112,7 +113,8 @@ class _MyPropsCardState extends State<MyPropsCard> {
                 right: 8,
                 top: 75,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                  icon:
+                      const Icon(Icons.arrow_forward_ios, color: Colors.white),
                   onPressed: _onNext,
                 ),
               ),
@@ -157,41 +159,45 @@ class _MyPropsCardState extends State<MyPropsCard> {
               children: [
                 Text(
                   widget.title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     Icon(Icons.pie_chart, size: 18, color: Colors.grey[700]),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text('Ownership: ${widget.ownership}'),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.check_circle, size: 18, color: Colors.green),
-                    SizedBox(width: 8),
+                    const Icon(Icons.check_circle,
+                        size: 18, color: Colors.green),
+                    const SizedBox(width: 8),
                     Text('Total Ownership: ${widget.completionStatus}'),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.lock_outline, size: 18, color: Colors.grey),
-                    SizedBox(width: 8),
+                    const Icon(Icons.lock_outline,
+                        size: 18, color: Colors.grey),
+                    const SizedBox(width: 8),
                     Text('Status: ${widget.status}'),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(Icons.calendar_today, size: 18, color: Colors.blue),
-                    SizedBox(width: 8),
+                    const Icon(Icons.calendar_today,
+                        size: 18, color: Colors.blue),
+                    const SizedBox(width: 8),
                     Text('Due Date : ${widget.nextPaymentDue}'),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -206,20 +212,20 @@ class _MyPropsCardState extends State<MyPropsCard> {
                         );
                       }),
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, size: 18, color: Colors.red),
-                        SizedBox(width: 4),
-                        Expanded(
-                          // Ensure the text takes available space
-                          child: Text(
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const Icon(Icons.location_on,
+                              size: 18, color: Colors.red),
+                          const SizedBox(width: 4),
+                          Text(
                             widget.location,
-                            style: TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -232,21 +238,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
               AppButton(
                 text: "View",
                 onPress: () {
-                  HelperFunctions.routePushTo(
-                      const PropertyDetailsPage(
-                        title: "7 Semi Detached Duplex",
-                        imageUrls: [
-                          "assets/images/props13.jpg",
-                          "assets/images/props7.jpg",
-                          "assets/images/props4.jpg",
-                          "assets/images/props15.jpg",
-                        ],
-                        ownership: "20%",
-                        location: "Central Area Abuja Express",
-                        housePlanUrl: "assets/images/plan.jpg",
-                        videoUrl: "assets/images/propsvideo.mp4",
-                      ),
-                      context);
+                  HelperFunctions.routePushTo(MyPropsDetails(), context);
                 },
                 width: 100,
               ),

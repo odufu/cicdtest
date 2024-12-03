@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../props/presentation/widgets/my_props_card.dart';
+import 'widgets/my_props_card.dart';
 
 class MyProps extends StatefulWidget {
   const MyProps({super.key});

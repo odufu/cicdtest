@@ -110,47 +110,47 @@ class OwnershipSlotsPage extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Positioned(
-                              bottom: 23,
-                              left: 10,
-                              child: Container(
-                                height: 1,
-                                color: Theme.of(context).colorScheme.primary,
-                              )),
-                          FractionPaidProgressBar(
-                            fractions: [
-                              FractionPaidData(
-                                isPaid: true,
-                                imageUrl: 'assets/profile.png',
-                                amountPaid: 200000,
-                                equityOwned: 20.0,
-                                datePaid: '13 March, 2023',
-                              ),
-                              FractionPaidData(
-                                isPaid: false,
-                                amountToPay: 300000,
-                                equityToOwn: 30.0,
-                              ),
-                              FractionPaidData(
-                                isPaid: true,
-                                imageUrl: 'assets/profile.png',
-                                amountPaid: 400000,
-                                equityOwned: 40.0,
-                                datePaid: '15 March, 2023',
-                              ),
-                              FractionPaidData(
-                                isPaid: false,
-                                amountToPay: 500000,
-                                equityToOwn: 50.0,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Stack(
+                    //     children: [
+                    //       Positioned(
+                    //           bottom: 23,
+                    //           left: 10,
+                    //           child: Container(
+                    //             height: 1,
+                    //             color: Theme.of(context).colorScheme.primary,
+                    //           )),
+                    //       FractionPaidProgressBar(
+                    //         fractions: [
+                    //           FractionPaidData(
+                    //             isPaid: true,
+                    //             imageUrl: 'assets/profile.png',
+                    //             amountPaid: 200000,
+                    //             equityOwned: 20.0,
+                    //             datePaid: '13 March, 2023',
+                    //           ),
+                    //           FractionPaidData(
+                    //             isPaid: false,
+                    //             amountToPay: 300000,
+                    //             equityToOwn: 30.0,
+                    //           ),
+                    //           FractionPaidData(
+                    //             isPaid: true,
+                    //             imageUrl: 'assets/profile.png',
+                    //             amountPaid: 400000,
+                    //             equityOwned: 40.0,
+                    //             datePaid: '15 March, 2023',
+                    //           ),
+                    //           FractionPaidData(
+                    //             isPaid: false,
+                    //             amountToPay: 500000,
+                    //             equityToOwn: 50.0,
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

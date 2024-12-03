@@ -12,13 +12,14 @@ class FractionPaidProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Calculate available width for the progress bar
-        double availableWidth = constraints.maxWidth - 70;
+        double availableWidth =
+            (constraints.maxWidth - 70).clamp(0, double.infinity);
         int totalFractions = fractions.length;
         double circleDiameter = 24.0;
-        double lineWidth =
-            (availableWidth - (totalFractions * circleDiameter)) /
-                (totalFractions - 1);
+        double lineWidth = totalFractions > 1
+            ? (availableWidth - (totalFractions * circleDiameter)) /
+                (totalFractions - 1)
+            : 0.0;
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,37 +29,37 @@ class FractionPaidProgressBar extends StatelessWidget {
 
             return Row(
               children: [
-                // Interactive Circle with Modal
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return FractionPaidModal(fraction: fraction);
-                      },
-                    );
-                  },
-                  icon: Container(
-                    width: circleDiameter,
-                    height: circleDiameter,
-                    decoration: BoxDecoration(
-                      color: fraction.isPaid ? Colors.green : Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: fraction.isPaid ? Colors.green : Colors.brown,
-                        width: fraction.isPaid ? 3 : 1,
+                Builder(
+                  builder: (innerContext) => IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: innerContext,
+                        builder: (BuildContext context) {
+                          return FractionPaidModal(fraction: fraction);
+                        },
+                      );
+                    },
+                    icon: Container(
+                      width: circleDiameter,
+                      height: circleDiameter,
+                      decoration: BoxDecoration(
+                        color: fraction.isPaid ? Colors.green : Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: fraction.isPaid ? Colors.green : Colors.brown,
+                          width: fraction.isPaid ? 3 : 1,
+                        ),
                       ),
+                      child: fraction.isPaid
+                          ? const Icon(
+                              Icons.check,
+                              size: 16,
+                              color: Colors.white,
+                            )
+                          : null,
                     ),
-                    child: fraction.isPaid
-                        ? const Icon(
-                            Icons.check,
-                            size: 16,
-                            color: Colors.white,
-                          )
-                        : null,
                   ),
                 ),
-                // Connecting line (not for the last item)
                 if (!isLast)
                   Container(
                     width: lineWidth,
@@ -109,53 +110,63 @@ class FractionPaidModal extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       contentPadding: const EdgeInsets.all(20),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: fraction.isPaid
-            ? [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage(fraction.imageUrl),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "Amount Paid: \₦${fraction.amountPaid.toStringAsFixed(2)}",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Equity Owned: ${fraction.equityOwned.toStringAsFixed(2)}%",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Date Paid: ${fraction.datePaid}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ]
-            : [
-                const Icon(
-                  Icons.warning,
-                  size: 50,
-                  color: Colors.red,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "No one has paid for this spot yet.",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "Amount to Pay: \₦${fraction.amountToPay.toStringAsFixed(2)}",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Equity to Own: ${fraction.equityToOwn.toStringAsFixed(2)}%",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: fraction.isPaid
+              ? [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: fraction.imageUrl.isNotEmpty
+                        ? AssetImage(fraction.imageUrl)
+                        : const AssetImage('assets/default_image.png'),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Amount Paid: \₦${fraction.amountPaid.toStringAsFixed(2)}",
+                    style: Theme.of(context).textTheme.bodyLarge ??
+                        const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Equity Owned: ${fraction.equityOwned.toStringAsFixed(2)}%",
+                    style: Theme.of(context).textTheme.bodyLarge ??
+                        const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Date Paid: ${fraction.datePaid}",
+                    style: Theme.of(context).textTheme.bodyMedium ??
+                        const TextStyle(fontSize: 14),
+                  ),
+                ]
+              : [
+                  const Icon(
+                    Icons.warning,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "No one has paid for this spot yet.",
+                    style: Theme.of(context).textTheme.bodyLarge ??
+                        const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Amount to Pay: \₦${fraction.amountToPay.toStringAsFixed(2)}",
+                    style: Theme.of(context).textTheme.bodyLarge ??
+                        const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Equity to Own: ${fraction.equityToOwn.toStringAsFixed(2)}%",
+                    style: Theme.of(context).textTheme.bodyLarge ??
+                        const TextStyle(fontSize: 16),
+                  ),
+                ],
+        ),
       ),
       actions: [
         TextButton(

@@ -1,4 +1,6 @@
+import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'package:cicdtest/salis/myprops/presentation/my_props.dart';
 import 'package:flutter/material.dart';
 
 class PaymentSummaryPage extends StatelessWidget {
@@ -6,7 +8,7 @@ class PaymentSummaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double myWidth = MediaQuery.of(context).size.width;
+    double myWidth = MediaQuery.of(context).size.width * .97;
 
     return Scaffold(
       appBar: AppBar(
@@ -184,7 +186,9 @@ class PaymentSummaryPage extends StatelessWidget {
       child: Column(
         children: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                HelperFunctions.routePushTo(MyProps(), context);
+              },
               icon: Container(
                 width: myWidth * .9,
                 padding: const EdgeInsets.all(10),
