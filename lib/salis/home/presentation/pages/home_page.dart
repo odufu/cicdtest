@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     MyHomePage(),
     const Property(),
     const MyProps(),
-    const Profile(),
+    Profile(),
   ];
 
   @override

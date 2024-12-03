@@ -725,17 +725,17 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
         child: Row(
           children: [
             AppButton(
-                text: "Get 10%",
+                text: "Contact Agent",
                 width: MediaQuery.of(context).size.width * .4,
                 onPress: () {
                   HelperFunctions.routePushTo(
                       const OwnershipSlotsPage(), context);
                 }),
             AppButton(
-              text: "Puechase",
+              text: "Sell",
               width: MediaQuery.of(context).size.width * .4,
               onPress: () {},
-              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              backgroundColor: Colors.grey.shade900,
             ),
           ],
         ),
