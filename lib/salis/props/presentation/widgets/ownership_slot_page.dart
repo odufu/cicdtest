@@ -1,5 +1,6 @@
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:cicdtest/salis/props/presentation/pages/prop_details.dart';
 import 'package:cicdtest/salis/props/presentation/widgets/terms_and_agreement_page.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,11 @@ import 'package:flutter/material.dart';
 import 'fraction_paid_progress_bar.dart';
 
 class OwnershipSlotsPage extends StatelessWidget {
-  const OwnershipSlotsPage({super.key});
+  final Property property;
+  const OwnershipSlotsPage({
+    required this.property,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,11 @@ class OwnershipSlotsPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            HelperFunctions.routeReplacdTo(PropDetails(), context);
+            HelperFunctions.routeReplacdTo(
+                PropDetails(
+                  property: property,
+                ),
+                context);
           },
         ),
       ),
@@ -36,7 +45,7 @@ class OwnershipSlotsPage extends StatelessWidget {
               children: [
                 const OwnershipSlotCard(
                   name: "Vincent Onoja",
-                  amount: "N200,000",
+                  amount: "₦200,000",
                   totalAmount: "5.6Mil",
                   percentage: "20%",
                   date: "13 March, 2023",
@@ -45,7 +54,7 @@ class OwnershipSlotsPage extends StatelessWidget {
                 ),
                 const OwnershipSlotCard(
                   name: "Samuel Ameh",
-                  amount: "N200,000",
+                  amount: "₦200,000",
                   totalAmount: "5.6Mil",
                   percentage: "20%",
                   date: "13 March, 2023",
@@ -53,8 +62,8 @@ class OwnershipSlotsPage extends StatelessWidget {
                   isPaid: true,
                 ),
                 const OwnershipSlotCard(
-                  name: "Private Name",
-                  amount: "N200,000",
+                  name: "Private ₦ame",
+                  amount: "₦200,000",
                   totalAmount: "5.6Mil",
                   percentage: "50%",
                   date: "13 March, 2023",
@@ -63,7 +72,7 @@ class OwnershipSlotsPage extends StatelessWidget {
                 ),
                 const OwnershipSlotCard(
                   name: "+234, 808 5040 146",
-                  amount: "N200,000",
+                  amount: "₦200,000",
                   totalAmount: "5.6Mil",
                   percentage: "10%",
                   date: "13 March, 2023",

@@ -1,5 +1,6 @@
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
+import 'package:cicdtest/salis/home/presentation/pages/home_page.dart';
 import 'package:cicdtest/salis/myprops/presentation/my_props.dart';
 import 'package:flutter/material.dart';
 
@@ -187,7 +188,11 @@ class PaymentSummaryPage extends StatelessWidget {
         children: [
           IconButton(
               onPressed: () {
-                HelperFunctions.routePushTo(MyProps(), context);
+                HelperFunctions.routePushTo(
+                    HomePage(
+                      initialIndex: 2,
+                    ),
+                    context);
               },
               icon: Container(
                 width: myWidth * .9,

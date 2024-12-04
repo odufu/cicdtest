@@ -1,8 +1,11 @@
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
 import 'package:cicdtest/salis/home/presentation/pages/home_page.dart';
+import 'package:cicdtest/salis/props/data/property.dart';
+import 'package:cicdtest/salis/props/presentation/pages/prop_details.dart';
 import 'package:cicdtest/salis/props/presentation/property.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -34,7 +37,9 @@ class MyHomePage extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: SingleChildScrollView(
@@ -138,21 +143,28 @@ class MyHomePage extends StatelessWidget {
                         height: 120,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: newProperties.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              width: 150,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(.5),
-                                borderRadius: BorderRadius.circular(8.0),
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/props${index + 7}.jpg'), // Placeholder
-                                  fit: BoxFit.cover,
+                            return GestureDetector(
+                              onTap: () {
+                                HelperFunctions.routePushTo(
+                                    PropDetails(property: newProperties[index]),
+                                    context);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(.5),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  image: DecorationImage(
+                                    image: AssetImage(newProperties[index]
+                                        .images![0]), // Placeholder
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             );
@@ -169,8 +181,8 @@ class MyHomePage extends StatelessWidget {
                       const SizedBox(height: 10),
                       GridView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 4,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: newProperties.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -178,19 +190,86 @@ class MyHomePage extends StatelessWidget {
                           mainAxisSpacing: 10,
                         ),
                         itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(.5),
-                              borderRadius: BorderRadius.circular(8.0),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/props${index + 11}.jpg'), // Placeholder
-                                fit: BoxFit.cover,
+                          return GestureDetector(
+                            onTap: () {
+                              HelperFunctions.routePushTo(
+                                  PropDetails(
+                                    property: newProperties[index],
+                                  ),
+                                  context);
+                            },
+                            child: Stack(children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(.5),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  image: DecorationImage(
+                                    image: AssetImage(newProperties[index]
+                                        .images![0]), // Placeholder
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                  bottom: 0,
+                                  child: LayoutBuilder(
+                                      builder: (context, constraints) {
+                                    return Container(
+                                      width: 200,
+                                      height: 70,
+                                      color: Colors.white.withOpacity(.6),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              newProperties[index].title,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            Text(
+                                              "₦${newProperties[index].price.round()}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  })),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(.8),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ]),
                           );
                         },
                       ),

@@ -2,28 +2,15 @@ import 'dart:async';
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/core/widgets/app_button.dart';
 import 'package:cicdtest/salis/myprops/presentation/widgets/my_props_details.dart';
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:flutter/material.dart';
 
 class MyPropsCard extends StatefulWidget {
-  final List<String> imageUrls;
-  final String title;
-  final String ownership;
-  final String completionStatus;
-  final String status;
-  final String nextPaymentDue;
-  final String location;
-  final int rating;
+  final Property property;
 
   const MyPropsCard({
     Key? key,
-    required this.imageUrls,
-    required this.title,
-    required this.ownership,
-    required this.completionStatus,
-    required this.status,
-    required this.nextPaymentDue,
-    required this.location,
-    required this.rating,
+    required this.property,
   }) : super(key: key);
 
   @override
@@ -43,7 +30,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
   void _startAutoSlide() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       setState(() {
-        _currentIndex = (_currentIndex + 1) % widget.imageUrls.length;
+        _currentIndex = (_currentIndex + 1) % widget.property.images!.length;
       });
     });
   }
@@ -61,7 +48,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
   void _onNext() {
     _stopAutoSlide();
     setState(() {
-      _currentIndex = (_currentIndex + 1) % widget.imageUrls.length;
+      _currentIndex = (_currentIndex + 1) % widget.property.images!.length;
     });
     _startAutoSlide();
   }
@@ -69,8 +56,8 @@ class _MyPropsCardState extends State<MyPropsCard> {
   void _onPrevious() {
     _stopAutoSlide();
     setState(() {
-      _currentIndex = (_currentIndex - 1 + widget.imageUrls.length) %
-          widget.imageUrls.length;
+      _currentIndex = (_currentIndex - 1 + widget.property.images!.length) %
+          widget.property.images!.length;
     });
     _startAutoSlide();
   }
@@ -91,7 +78,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
-                  widget.imageUrls[_currentIndex],
+                  widget.property.images![_currentIndex],
                   height: 180,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -126,7 +113,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.imageUrls.asMap().entries.map((entry) {
+              children: widget.property.images!.asMap().entries.map((entry) {
                 return GestureDetector(
                   onTap: () {
                     _stopAutoSlide();
@@ -158,7 +145,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.title,
+                  widget.property.title,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -167,7 +154,8 @@ class _MyPropsCardState extends State<MyPropsCard> {
                   children: [
                     Icon(Icons.pie_chart, size: 18, color: Colors.grey[700]),
                     const SizedBox(width: 8),
-                    Text('Ownership: ${widget.ownership}'),
+                    Text(
+                        'Ownership: ${(widget.property.price - ((widget.property.instalmentPaid)!.toDouble())) * 100 / widget.property.price}%'),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -176,7 +164,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
                     const Icon(Icons.check_circle,
                         size: 18, color: Colors.green),
                     const SizedBox(width: 8),
-                    Text('Total Ownership: ${widget.completionStatus}'),
+                    Text('Total Worth: ₦ ${widget.property.price.round()}'),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -185,7 +173,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
                     const Icon(Icons.lock_outline,
                         size: 18, color: Colors.grey),
                     const SizedBox(width: 8),
-                    Text('Status: ${widget.status}'),
+                    Text('Status: ${widget.property.isTaken}'),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -194,7 +182,8 @@ class _MyPropsCardState extends State<MyPropsCard> {
                     const Icon(Icons.calendar_today,
                         size: 18, color: Colors.blue),
                     const SizedBox(width: 8),
-                    Text('Due Date : ${widget.nextPaymentDue}'),
+                    Text(
+                        'Next Payment : ${widget.property.nextPaymentDueDate}'),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -204,7 +193,7 @@ class _MyPropsCardState extends State<MyPropsCard> {
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
-                          index < widget.rating
+                          index < widget.property.rating!.toInt()
                               ? Icons.star
                               : Icons.star_border,
                           color: Colors.orange,
@@ -212,20 +201,22 @@ class _MyPropsCardState extends State<MyPropsCard> {
                         );
                       }),
                     ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.location_on,
-                              size: 18, color: Colors.red),
-                          const SizedBox(width: 4),
-                          Text(
-                            widget.location,
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on,
+                            size: 18, color: Colors.red),
+                        const SizedBox(width: 4),
+                        Container(
+                          width: MediaQuery.of(context).size.width * .4,
+                          child: Text(
+                            widget.property.location,
+                            softWrap: true,
                             style: const TextStyle(fontSize: 14),
-                            maxLines: 2,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -238,7 +229,11 @@ class _MyPropsCardState extends State<MyPropsCard> {
               AppButton(
                 text: "View",
                 onPress: () {
-                  HelperFunctions.routePushTo(MyPropsDetails(), context);
+                  HelperFunctions.routePushTo(
+                      MyPropsDetails(
+                        property: widget.property,
+                      ),
+                      context);
                 },
                 width: 100,
               ),

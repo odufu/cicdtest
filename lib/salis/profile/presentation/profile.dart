@@ -1,6 +1,8 @@
 import 'package:cicdtest/salis/profile/presentation/widgets/dp_card.dart';
+// import 'package:cicdtest/salis/props/presentation/property.dart';
 import 'package:flutter/material.dart';
 
+import '../../props/data/property.dart';
 import 'widgets/my_product_card.dart';
 
 class Profile extends StatelessWidget {
@@ -8,7 +10,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,10 +25,7 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MyProductCard(
-                  image: "assets/images/props7.jpg",
-                  title: "Lugbe Luxo Home",
-                  share: "25",
-                  remaining: "75",
+                  property: myProperties[0],
                 ),
               ],
             ),
@@ -34,10 +33,7 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MyProductCard(
-                  image: "assets/images/props11.jpg",
-                  title: "Salis Court Homes",
-                  share: "25",
-                  remaining: "75",
+                  property: myProperties[1],
                 ),
               ],
             ),

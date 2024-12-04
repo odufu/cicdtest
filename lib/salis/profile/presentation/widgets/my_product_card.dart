@@ -1,17 +1,12 @@
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/myprops/presentation/widgets/my_props_details.dart';
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:flutter/material.dart';
 
 class MyProductCard extends StatelessWidget {
-  final String title;
-  final String image;
-  final String share;
-  final String remaining;
+  final Property property;
   const MyProductCard({
-    required this.image,
-    required this.title,
-    required this.remaining,
-    required this.share,
+    required this.property,
     super.key,
   });
 
@@ -19,7 +14,11 @@ class MyProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        HelperFunctions.routePushTo(MyPropsDetails(), context);
+        HelperFunctions.routePushTo(
+            MyPropsDetails(
+              property: property,
+            ),
+            context);
       },
       icon: Card(
         child: Padding(
@@ -34,10 +33,10 @@ class MyProductCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
-                          image: AssetImage(image),
+                          image: AssetImage(property.images![0]),
                         )),
                   ),
-               const   SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Row(
@@ -47,7 +46,7 @@ class MyProductCard extends StatelessWidget {
                         width: 1,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                     const  SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Column(
@@ -55,16 +54,16 @@ class MyProductCard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                            const  Icon(
+                              const Icon(
                                 Icons.apartment,
                                 size: 15,
                                 weight: 4,
                               ),
-                            const  SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
-                                title,
+                                property.title,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:
@@ -83,7 +82,7 @@ class MyProductCard extends StatelessWidget {
                                 width: 5,
                               ),
                               Text(
-                                "My Share:$share%",
+                                "My Share: ${((property.price - ((property.instalmentPaid)!.toDouble())) * 100 / property.price).roundToDouble()}%",
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -101,7 +100,7 @@ class MyProductCard extends StatelessWidget {
                                 width: 5,
                               ),
                               Text(
-                                "Percent Remaining: $remaining%",
+                                "Payment: ${(property.price - property.instalmentPaid!.toDouble()).round()}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                 ),

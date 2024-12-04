@@ -1,3 +1,4 @@
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:flutter/material.dart';
 import 'widgets/my_props_card.dart';
 
@@ -24,21 +25,10 @@ class _MyPropsState extends State<MyProps> {
           ),
           itemCount: 5, // Replace with your actual number of items
           itemBuilder: (context, index) {
-            return MyPropsCard(
-              imageUrls: [
-                "assets/images/props13.jpg",
-                "assets/images/props14.jpg",
-                "assets/images/props15.jpg",
-                "assets/images/props16.jpg",
-                "assets/images/props17.jpg",
-              ],
-              title: 'Semi Detached Duplex',
-              ownership: '20%',
-              completionStatus: '90%',
-              status: 'In Progress',
-              nextPaymentDue: '12th Dec. 2024',
-              location: 'Gwarimpa Abuja',
-              rating: 4,
+            return GestureDetector(
+              child: MyPropsCard(
+                property: myProperties[index],
+              ),
             );
           },
         ),

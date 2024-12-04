@@ -1,3 +1,4 @@
+import 'package:cicdtest/salis/core/utils/helper_functions.dart';
 import 'package:cicdtest/salis/home_page/presentation/home_page.dart';
 import 'package:cicdtest/salis/myprops/presentation/my_props.dart';
 import 'package:cicdtest/salis/profile/presentation/profile.dart';
@@ -40,9 +41,18 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Row(
           children: [
-            const CircleAvatar(
-              backgroundImage:
-                  AssetImage('assets/images/joel.jpg'), // Profile image
+            GestureDetector(
+              onTap: () {
+                HelperFunctions.routePushTo(
+                    HomePage(
+                      initialIndex: 3,
+                    ),
+                    context);
+              },
+              child: const CircleAvatar(
+                backgroundImage:
+                    AssetImage('assets/profile.png'), // Profile image
+              ),
             ),
             const SizedBox(width: 10),
             Column(

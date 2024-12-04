@@ -1,3 +1,4 @@
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:flutter/material.dart';
 import 'widgets/product_card.dart';
 
@@ -7,103 +8,44 @@ class Property extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0), // Added const for static values
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/roundedLogo.png",
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 40,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Expanded(
-                      child: SizedBox(
-                        height: 45,
-                        child: SearchBar(
-                          leading: Icon(Icons.search),
-                          hintText: "Search Here...",
-                        ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0), // Added const for static values
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/images/roundedLogo.png",
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 40,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Expanded(
+                    child: SizedBox(
+                      height: 45,
+                      child: SearchBar(
+                        leading: Icon(Icons.search),
+                        hintText: "Search Here...",
                       ),
                     ),
-                  ],
-                ),
-              ),
-              // Removed const for dynamic images
-              const ProductCard(
-                images: [
-                  'assets/images/props9.jpg',
-                  'assets/images/props21.jpg',
-                  'assets/images/props11.jpg',
-                  'assets/images/props4.jpg'
+                  ),
                 ],
-                name: "3-Bed Duplex",
-                price: "₦ 500,000",
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const ProductCard(
-                images: [
-                  'assets/images/props11.jpg',
-                  'assets/images/props12.jpg',
-                  'assets/images/props3.jpg',
-                  'assets/images/props4.jpg'
-                ],
-                name: "4 - Bedroom Bungallow",
-                price: "₦ 400,000",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const ProductCard(
-                images: [
-                  'assets/images/props3.jpg',
-                  'assets/images/props2.jpg',
-                  'assets/images/props1.jpg',
-                  'assets/images/props4.jpg'
-                ],
-                name: "4 - Bedroom Bungallow",
-                price: "₦ 400,000",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const ProductCard(
-                images: [
-                  'assets/images/props4.jpg',
-                  'assets/images/props1.jpg',
-                  'assets/images/props3.jpg',
-                  'assets/images/props2.jpg'
-                ],
-                name: "4 - Bedroom Bungallow",
-                price: "₦ 400,000",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const ProductCard(
-                images: [
-                  'assets/images/props6.jpg',
-                  'assets/images/props6.jpg',
-                  'assets/images/props8.jpg',
-                  'assets/images/props9.jpg'
-                ],
-                name: "4 - Bedroom Bungallow",
-                price: "₦ 400,000",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+            ),
+            // Removed const for dynamic images
+
+            Expanded(
+              child: ListView.builder(
+                  itemCount: newProperties.length,
+                  itemBuilder: (context, index) {
+                    return ProductCard(property: newProperties[index]);
+                  }),
+            ),
+          ],
         ),
       ),
     );

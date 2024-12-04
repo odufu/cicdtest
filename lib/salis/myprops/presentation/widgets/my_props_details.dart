@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
@@ -9,20 +10,17 @@ import 'package:cicdtest/salis/props/presentation/widgets/ownership_slot_page.da
 import '../../../props/presentation/widgets/fraction_paid_progress_bar.dart';
 
 class MyPropsDetails extends StatefulWidget {
-  MyPropsDetails({super.key});
+  final Property property;
+  MyPropsDetails({
+    required this.property,
+    super.key,
+  });
 
   @override
   State<MyPropsDetails> createState() => _MyPropsDetailsState();
 }
 
 class _MyPropsDetailsState extends State<MyPropsDetails> {
-  final images = [
-    'assets/images/props6.jpg',
-    'assets/images/props6.jpg',
-    'assets/images/props7.jpg',
-    'assets/images/props9.jpg',
-  ];
-
   late PageController _pageController;
   late Timer _timer;
 
@@ -33,7 +31,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
 
     // Auto-slide every 5 seconds
     _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      int nextPage = (_pageController.page!.toInt() + 1) % images.length;
+      int nextPage =
+          (_pageController.page!.toInt() + 1) % widget.property.images!.length;
       _pageController.animateToPage(
         nextPage,
         duration: Duration(milliseconds: 400),
@@ -55,7 +54,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
-        title: Text("Property Details",
+        title: Text(widget.property.title,
             style: TextStyle(color: Theme.of(context).colorScheme.surface)),
       ),
       body: SingleChildScrollView(
@@ -69,13 +68,13 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   height: 200,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: images.length,
+                    itemCount: widget.property.images!.length,
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(images[index]),
+                            image: AssetImage(widget.property.images![index]),
                           ),
                         ),
                       );
@@ -119,7 +118,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                 child: Chewie(
                   controller: ChewieController(
                     videoPlayerController: VideoPlayerController.asset(
-                      'assets/images/propsvideo.mp4', // Replace with your video asset or network URL
+                      widget.property
+                          .video!, // Replace with your video asset or network URL
                     ),
                     autoPlay: false,
                     looping: false,
@@ -145,7 +145,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                 children: [
                   //TITLE
                   Text(
-                    "Mordern Luxery Appertment",
+                    widget.property.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
@@ -156,7 +156,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   ),
                   //PROPS TYPE
                   Text(
-                    "Appartment",
+                    widget.property.propType,
                     style: TextStyle(
                       fontWeight: FontWeight.w100,
                       fontStyle: FontStyle.italic,
@@ -168,7 +168,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   ),
                   // LOCATION
                   Text(
-                    "Gwarimpa Kubwa, FCT Abuja",
+                    widget.property.location,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
@@ -181,7 +181,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   // DESCRIOTION
                   const Divider(),
                   Text(
-                    "Immerse yourself in luxury with this modern apartment featuring spacious rooms, top-notch amenities, and breathtaking views. Ideal for those seeking a blend of comfort and sophistication",
+                    widget.property.location,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Theme.of(context).colorScheme.primary,
@@ -203,20 +203,25 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                     height: 5,
                   ),
 
-                  const Column(
+                  Column(
                     children: [
                       Row(
                         children: [
-                          Row(
-                            children: [Icon(Icons.bolt), Text("Electricity")],
-                          ),
+                          widget.property.eletricity == true
+                              ? Row(
+                                  children: [
+                                    Icon(Icons.bolt),
+                                    Text("Electricity")
+                                  ],
+                                )
+                              : SizedBox.shrink(),
                           SizedBox(
                             width: 50,
                           ),
                           Row(
                             children: [
                               Icon(Icons.apartment),
-                              Text("Bedrooms: 2")
+                              Text("Bedrooms: ${widget.property.bedrooms}")
                             ],
                           ),
                         ],
@@ -235,7 +240,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                           Row(
                             children: [
                               Icon(Icons.bathroom),
-                              Text("Bathroom: 4")
+                              Text("Bathroom: ${widget.property.bathrooms}")
                             ],
                           ),
                         ],
@@ -284,7 +289,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                       SizedBox(
                         width: 15,
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -296,7 +301,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Packing Space: 2")
+                              Text(
+                                  "Packing Space:${widget.property.packingSpace}")
                             ],
                           ),
                           Row(
@@ -308,7 +314,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Garden: Comon")
+                              Text("Garden: Comon ${widget.property.garden}")
                             ],
                           ),
                           Row(
@@ -320,7 +326,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Pool: Shared")
+                              Text("Pool: ${widget.property.pool}")
                             ],
                           ),
                         ],
@@ -333,7 +339,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
 
                   // CO-OWN PULL DETAILS
                   Text(
-                    "Co-Ownershoip",
+                    "Ownership",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
@@ -353,7 +359,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                       SizedBox(
                         width: 15,
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -365,7 +371,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Co-Ownership Details: 15%")
+                              Text(
+                                  "My Share: ${(widget.property.price - ((widget.property.instalmentPaid)!.toDouble())) * 100 / widget.property.price}%'")
                             ],
                           ),
                           Row(
@@ -377,7 +384,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Total Ownership Pregress: 90%")
+                              Text(
+                                  "Amount Remaining: ${(widget.property.price - ((widget.property.instalmentPaid)!.toDouble()))}")
                             ],
                           ),
                         ],
@@ -410,7 +418,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                       SizedBox(
                         width: 15,
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -422,7 +430,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Total Property Cost: N 500, 0000")
+                              Text(
+                                  "Total Property Cost: ${widget.property.price}'")
                             ],
                           ),
                           Row(
@@ -434,7 +443,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Payment Schedule: 6 x N 10 Mil")
+                              Text("Payment Schedule: ${widget.property.price}")
                             ],
                           ),
                         ],
@@ -484,7 +493,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text("Status: In Progress")
+                                  Text(
+                                      "Status: ${widget.property.isTaken == true ? "Off Market" : "Uncompleted"}")
                                 ],
                               ),
                               Row(
@@ -498,7 +508,8 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text("Next Payment Due: N 500,000")
+                                  Text(
+                                      "Next Payment:${widget.property.nextPaymentDueDate}")
                                 ],
                               ),
                             ],
@@ -536,7 +547,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                               decoration: BoxDecoration(
                                   color: Theme.of(context).colorScheme.primary),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             Column(
@@ -697,7 +708,9 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Image.asset("assets/images/map.jpg"),
+                  Image.asset(
+                    widget.property.siteMap!,
+                  ),
                   // FLOOR PLANS
                   const SizedBox(
                     height: 5,
@@ -712,7 +725,7 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Image.asset("assets/images/plan.jpg"),
+                  Image.asset(widget.property.housePlan!),
                 ],
               ),
             )
@@ -729,7 +742,10 @@ class _MyPropsDetailsState extends State<MyPropsDetails> {
                 width: MediaQuery.of(context).size.width * .4,
                 onPress: () {
                   HelperFunctions.routePushTo(
-                      const OwnershipSlotsPage(), context);
+                      OwnershipSlotsPage(
+                        property: widget.property,
+                      ),
+                      context);
                 }),
             AppButton(
               text: "Sell",

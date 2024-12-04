@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cicdtest/salis/core/utils/helper_functions.dart';
+import 'package:cicdtest/salis/props/data/property.dart';
 import 'package:cicdtest/salis/props/presentation/pages/prop_details.dart';
 import 'package:flutter/material.dart';
 
@@ -7,14 +8,10 @@ import '../../../core/widgets/app_button.dart';
 import 'fraction_paid_progress_bar.dart';
 
 class ProductCard extends StatefulWidget {
-  final List<String> images;
-  final String name;
-  final String price;
+  final Property property;
 
   const ProductCard({
-    required this.images,
-    required this.name,
-    required this.price,
+    required this.property,
     super.key,
   });
 
@@ -45,7 +42,8 @@ class _ProductCardState extends State<ProductCard> {
       if (_pageController.hasClients) {
         final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
         _pageController.animateToPage(
-          nextPage % widget.images.length, // Wrap around to the first image
+          nextPage %
+              widget.property.images!.length, // Wrap around to the first image
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
@@ -68,13 +66,13 @@ class _ProductCardState extends State<ProductCard> {
                 children: [
                   PageView.builder(
                     controller: _pageController,
-                    itemCount: widget.images.length,
+                    itemCount: widget.property.images!.length,
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(widget.images[index]),
+                            image: AssetImage(widget.property.images![index]),
                           ),
                         ),
                       );
@@ -117,7 +115,7 @@ class _ProductCardState extends State<ProductCard> {
             ),
             const SizedBox(height: 10),
             Text(
-              widget.name,
+              widget.property.title,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -137,7 +135,7 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    widget.price,
+                    "₦${widget.property.price.round().toString()} ",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -198,7 +196,11 @@ class _ProductCardState extends State<ProductCard> {
                   text: "VIEW Details",
                   width: 130,
                   onPress: () {
-                    HelperFunctions.routePushTo(PropDetails(), context);
+                    HelperFunctions.routePushTo(
+                        PropDetails(
+                          property: widget.property,
+                        ),
+                        context);
                   },
                   backgroundColor: const Color.fromARGB(255, 29, 97, 31),
                 ),
