@@ -1,6 +1,4 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
-  "files.exclude": {
-    ".github": true
-  }
+  "files.exclude": {}
 }
