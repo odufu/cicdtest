@@ -21,7 +21,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'   # You can change back to 3.24.5 if needed
+          flutter-version: '3.29.0'
           cache: true
 
       - name: Cache Gradle
@@ -59,4 +59,4 @@ jobs:
           files: apk/myapp-release.apk
           prerelease: false
           make_latest: true
-          overwrite: true   # This ensures the "latest" release is always updated
+          overwrite: true
